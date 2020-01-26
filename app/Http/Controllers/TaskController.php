@@ -14,7 +14,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        return Task::all();
     }
 
     /**
@@ -35,7 +35,15 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|string'
+        ]);
+
+        if (Task::create($data)) {
+            return response(['status' => 'success']);
+        } else {
+            return response(['status' => 'error']);
+        }
     }
 
     /**
@@ -46,7 +54,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        return $task;
     }
 
     /**
@@ -69,7 +77,15 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|string'
+        ]);
+
+        if ($task->update($data)) {
+            return response(['status' => 'success']);
+        } else {
+            return response(['status' => 'error']);
+        }
     }
 
     /**
@@ -80,6 +96,42 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        if ($task->delete()) {
+            return response(['status' => 'success']);
+        } else {
+            return response(['status' => 'error']);
+        }
+    }
+
+    public function completeTask(Task $task)
+    {
+        $task->status = true;
+
+        if ($task->save()) {
+            return response(['status' => 'success']);
+        } else {
+            return response(['status' => 'error']);
+        }
+    }
+
+    public function undoCompletedTask(Task $task)
+    {
+        $task->status = false;
+
+        if ($task->save()) {
+            return response(['status' => 'success']);
+        } else {
+            return response(['status' => 'error']);
+        }
+    }
+
+    public function viewCompleted()
+    {
+        return Task::where('status', 1)->get();
+    }
+
+    public function viewNotCompleted()
+    {
+        return Task::where('status', 0)->get();
     }
 }

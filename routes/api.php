@@ -16,3 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::resource('task', 'TaskController');
+Route::get('complete/{task}', 'TaskController@completeTask');
+Route::get('undo/{task}', 'TaskController@undoCompletedTask');
+Route::get('compeleted', 'TaskController@viewCompleted');
+Route::get('not-compeleted', 'TaskController@viewNotCompleted');
