@@ -29,7 +29,10 @@ Vue.component('app-home', require('./AppHome.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import store from './store'
+
 const app = new Vue({
     el: '#app',
-    vuetify: new Vuetify()
+    vuetify: new Vuetify(),
+    store
 });
