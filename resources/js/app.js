@@ -30,9 +30,11 @@ Vue.component('app-home', require('./AppHome.vue').default);
  */
 
 import store from './store'
+import router from './router'
 
 const app = new Vue({
     el: '#app',
     vuetify: new Vuetify(),
-    store
+    store,
+    router
 });

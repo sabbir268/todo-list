@@ -38,6 +38,17 @@ let mutations = {
         state.tasks.splice(state.tasks.indexOf(task), 1)
         state.toRemove = null;
     },
+    clearCompletedTask(state) {
+        let tasks = state.tasks;
+        let completed = state.tasks.filter(tasks => tasks.status == 1);
+        console.log(completed);
+        if (completed.length > 0) {
+            for (var i = completed.length + 1; i >= 0; i--) {
+                state.tasks.splice(completed[i], 1);
+            }
+        }
+
+    }
 }
 
 let actions = {
@@ -78,6 +89,18 @@ let actions = {
             .then(res => {
                 if (res.data == 'success')
                     console.log('completed')
+            }).catch(err => {
+                console.log(err)
+            })
+    },
+    clearCompletedTask({
+        commit
+    }) {
+        commit('clearCompletedTask');
+        axios.get('/api/clear-completed')
+            .then(res => {
+                if (res.data == 'success')
+                    console.log('Clear Completed Task')
             }).catch(err => {
                 console.log(err)
             })

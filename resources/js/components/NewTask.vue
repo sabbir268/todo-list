@@ -10,6 +10,7 @@ export default {
       this.$store.dispatch("addTask", this.newTask);
       this.$store.dispatch("getTasks");
 
+      this.$router.push("/");
     }
   },
   computed: {

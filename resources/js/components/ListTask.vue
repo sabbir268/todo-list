@@ -1,6 +1,6 @@
 <template>
   <v-list>
-    <v-list-item-group tasks>
+    <v-list-item-group>
       <ViewTask v-for="(task,i) in tasks" :key="i" :task="task"></ViewTask>
     </v-list-item-group>
   </v-list>
@@ -11,12 +11,15 @@ import { mapGetters } from "vuex";
 import ViewTask from "./ViewTask";
 
 export default {
-  props: ["tasks"],
   components: {
     ViewTask
   },
   data() {
     return {};
+  },
+  watch: {},
+  computed: {
+    ...mapGetters(["tasks"])
   }
 };
 </script>

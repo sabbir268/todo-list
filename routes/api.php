@@ -22,3 +22,4 @@ Route::get('complete/{task}', 'TaskController@completeTask');
 Route::get('undo/{task}', 'TaskController@undoCompletedTask');
 Route::get('compeleted', 'TaskController@viewCompleted');
 Route::get('not-compeleted', 'TaskController@viewNotCompleted');
+Route::get('clear-completed', 'TaskController@clearCompleted');

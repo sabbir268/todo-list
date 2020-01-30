@@ -134,4 +134,15 @@ class TaskController extends Controller
     {
         return Task::where('status', 0)->get();
     }
+
+    public function clearCompleted()
+    {
+        $tasks = Task::where('status', 1)->pluck('id');
+
+        if (Task::destroy($tasks)) {
+            return response(['status' => 'success']);
+        } else {
+            return response(['status' => 'error']);
+        }
+    }
 }

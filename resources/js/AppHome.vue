@@ -5,7 +5,18 @@
         <v-col md="6" class="mx-md-auto gray">
           <v-card class="pa-3" outlined tile>
             <NewTask></NewTask>
-            <ListTask :tasks="tasks"></ListTask>
+            <div class="custom-body">
+              <Router-view></Router-view>
+            </div>
+            <!-- <ListTask :tasks="tasks"></ListTask> -->
+            <v-card-action>
+              <v-divider></v-divider>
+              <v-text>{{taskLeft}} Item Left</v-text>
+              <v-chip class small to="/">All</v-chip>
+              <v-chip class small to="/active">Active</v-chip>
+              <v-chip class small to="/completed">Completed</v-chip>
+              <v-chip class small @click="clearCompleted">Clear Completed</v-chip>
+            </v-card-action>
           </v-card>
         </v-col>
       </v-row>
@@ -24,19 +35,29 @@ export default {
     ListTask
   },
   data() {
-    return {
-      // tasks: [
-      //   { title: "Do it now", status: 0 },
-      //   { title: "Do it now 2", status: 0 },
-      //   { title: "Do it now 3", status: 1 }
-      // ]
-    };
+    return {};
   },
   mounted() {
     this.$store.dispatch("getTasks");
   },
+  methods: {
+    clearCompleted: function() {
+      this.$store.dispatch("clearCompletedTask");
+    }
+  },
   computed: {
-    ...mapGetters(["tasks"])
+    ...mapGetters(["tasks"]),
+    taskLeft: function() {
+      let tasks = this.tasks;
+      return this.tasks.filter(tasks => tasks.status == 0).length;
+    }
   }
 };
 </script>
+
+<style>
+.custom-body {
+  max-height: 300px;
+  overflow: auto;
+}
+</style>
