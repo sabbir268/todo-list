@@ -1943,6 +1943,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -2130,7 +2132,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     addTask: function addTask() {
       this.$store.dispatch("addTask", this.newTask);
       this.$store.dispatch("getTasks");
-      this.$router.push("/");
     }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(["newTask"]))
@@ -38397,29 +38398,36 @@ var render = function() {
                             _vm._v(_vm._s(_vm.taskLeft) + " Item Left")
                           ]),
                           _vm._v(" "),
-                          _c("v-chip", { attrs: { small: "", to: "/" } }, [
-                            _vm._v("All")
-                          ]),
-                          _vm._v(" "),
                           _c(
-                            "v-chip",
-                            { attrs: { small: "", to: "/active" } },
-                            [_vm._v("Active")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-chip",
-                            { attrs: { small: "", to: "/completed" } },
-                            [_vm._v("Completed")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-chip",
-                            {
-                              attrs: { small: "" },
-                              on: { click: _vm.clearCompleted }
-                            },
-                            [_vm._v("Clear Completed")]
+                            "div",
+                            { staticClass: "float-right" },
+                            [
+                              _c("v-chip", { attrs: { small: "", to: "/" } }, [
+                                _vm._v("All")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-chip",
+                                { attrs: { small: "", to: "/active" } },
+                                [_vm._v("Active")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-chip",
+                                { attrs: { small: "", to: "/completed" } },
+                                [_vm._v("Completed")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-chip",
+                                {
+                                  attrs: { small: "" },
+                                  on: { click: _vm.clearCompleted }
+                                },
+                                [_vm._v("Clear Completed")]
+                              )
+                            ],
+                            1
                           )
                         ],
                         1
@@ -96570,6 +96578,12 @@ var mutations = {
     state.tasks.splice(state.tasks.indexOf(task), 1);
     state.toRemove = null;
   },
+  newTaskClear: function newTaskClear(state) {
+    state.newTask = {
+      title: '',
+      status: false
+    };
+  },
   clearCompletedTask: function clearCompletedTask(state) {
     var tasks = state.tasks;
     var completed = state.tasks.filter(function (tasks) {
@@ -96589,6 +96603,7 @@ var actions = {
     var commit = _ref.commit;
     axios.post('/api/task', task).then(function (res) {
       if (res.data === "success") console.log('added');
+      commit('newTaskClear');
     })["catch"](function (err) {
       console.log(err);
     });

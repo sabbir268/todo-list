@@ -38,6 +38,12 @@ let mutations = {
         state.tasks.splice(state.tasks.indexOf(task), 1)
         state.toRemove = null;
     },
+    newTaskClear(state) {
+        state.newTask = {
+            title: '',
+            status: false
+        }
+    },
     clearCompletedTask(state) {
         let tasks = state.tasks;
         let completed = state.tasks.filter(tasks => tasks.status == 1);
@@ -58,6 +64,7 @@ let actions = {
         axios.post('/api/task', task).then(res => {
             if (res.data === "success")
                 console.log('added')
+            commit('newTaskClear');
         }).catch(err => {
             console.log(err)
         })

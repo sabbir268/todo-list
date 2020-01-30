@@ -12,10 +12,12 @@
             <v-card-action>
               <v-divider></v-divider>
               <v-text>{{taskLeft}} Item Left</v-text>
-              <v-chip class small to="/">All</v-chip>
-              <v-chip class small to="/active">Active</v-chip>
-              <v-chip class small to="/completed">Completed</v-chip>
-              <v-chip class small @click="clearCompleted">Clear Completed</v-chip>
+              <div class="float-right">
+                <v-chip class small to="/">All</v-chip>
+                <v-chip class small to="/active">Active</v-chip>
+                <v-chip class small to="/completed">Completed</v-chip>
+                <v-chip class small @click="clearCompleted">Clear Completed</v-chip>
+              </div>
             </v-card-action>
           </v-card>
         </v-col>
