@@ -7,7 +7,13 @@
     <v-list-item-content>
       <v-list-item-title :class="task.status ? 'strikethrough' : ''">
         <span v-if="!doEdit">{{task.title}}</span>
-        <v-text-field v-else label="Edit" v-model="task.title" v-on-clickaway="update"></v-text-field>
+        <v-text-field
+          v-else
+          label="Edit"
+          v-model="task.title"
+          v-on-clickaway="update"
+          @keyup.enter="update"
+        ></v-text-field>
       </v-list-item-title>
     </v-list-item-content>
     <v-list-item-action>
@@ -34,7 +40,7 @@ export default {
   methods: {
     update: function() {
       this.doEdit = false;
-      //this.task.title = this.updateTask;
+      this.$store.dispatch("updateTask", this.task);
     },
     edit: function(status) {
       if (status.status == 0) {

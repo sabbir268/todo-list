@@ -2170,6 +2170,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["task"],
@@ -2183,7 +2189,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     update: function update() {
-      this.doEdit = false; //this.task.title = this.updateTask;
+      this.doEdit = false;
+      this.$store.dispatch("updateTask", this.task);
     },
     edit: function edit(status) {
       if (status.status == 0) {
@@ -38663,6 +38670,23 @@ var render = function() {
                       }
                     ],
                     attrs: { label: "Edit" },
+                    on: {
+                      keyup: function($event) {
+                        if (
+                          !$event.type.indexOf("key") &&
+                          _vm._k(
+                            $event.keyCode,
+                            "enter",
+                            13,
+                            $event.key,
+                            "Enter"
+                          )
+                        ) {
+                          return null
+                        }
+                        return _vm.update($event)
+                      }
+                    },
                     model: {
                       value: _vm.task.title,
                       callback: function($$v) {
@@ -96584,6 +96608,9 @@ var mutations = {
       status: false
     };
   },
+  // updateTask(state, task) {
+  // state.
+  // },
   clearCompletedTask: function clearCompletedTask(state) {
     var tasks = state.tasks;
     var completed = state.tasks.filter(function (tasks) {
@@ -96625,8 +96652,21 @@ var actions = {
       console.log(err);
     });
   },
-  completeTask: function completeTask(_ref4, task) {
+  updateTask: function updateTask(_ref4, task) {
     _objectDestructuringEmpty(_ref4);
+
+    axios.patch("api/task/".concat(task.id), {
+      title: task.title
+    }).then(function (res) {
+      if (res.data == 'success') {
+        console.log('task updated');
+      }
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  },
+  completeTask: function completeTask(_ref5, task) {
+    _objectDestructuringEmpty(_ref5);
 
     axios.get("/api/complete/".concat(task.id)).then(function (res) {
       if (res.data == 'success') console.log('completed');
@@ -96634,8 +96674,8 @@ var actions = {
       console.log(err);
     });
   },
-  clearCompletedTask: function clearCompletedTask(_ref5) {
-    var commit = _ref5.commit;
+  clearCompletedTask: function clearCompletedTask(_ref6) {
+    var commit = _ref6.commit;
     commit('clearCompletedTask');
     axios.get('/api/clear-completed').then(function (res) {
       if (res.data == 'success') console.log('Clear Completed Task');

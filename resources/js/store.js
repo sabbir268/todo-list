@@ -44,6 +44,9 @@ let mutations = {
             status: false
         }
     },
+    // updateTask(state, task) {
+    // state.
+    // },
     clearCompletedTask(state) {
         let tasks = state.tasks;
         let completed = state.tasks.filter(tasks => tasks.status == 1);
@@ -87,6 +90,18 @@ let actions = {
             .then(res => {
                 console.log(res.data)
                 commit('getTasks', res.data)
+            }).catch(err => {
+                console.log(err)
+            })
+    },
+    updateTask({}, task) {
+        axios.patch(`api/task/${task.id}`, {
+                title: task.title
+            })
+            .then(res => {
+                if (res.data == 'success') {
+                    console.log('task updated')
+                }
             }).catch(err => {
                 console.log(err)
             })
